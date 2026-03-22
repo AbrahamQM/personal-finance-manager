@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@RestController
+@RestController("/test")
 public class TestsControler {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
