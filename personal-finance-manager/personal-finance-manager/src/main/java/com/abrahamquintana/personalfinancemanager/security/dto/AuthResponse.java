@@ -1,4 +1,4 @@
-package com.abrahamquintana.personalfinancemanager.dto;
+package com.abrahamquintana.personalfinancemanager.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

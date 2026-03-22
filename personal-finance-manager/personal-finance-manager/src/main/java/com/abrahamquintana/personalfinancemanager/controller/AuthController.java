@@ -1,7 +1,7 @@
 package com.abrahamquintana.personalfinancemanager.controller;
 
-import com.abrahamquintana.personalfinancemanager.dto.AuthRequest;
-import com.abrahamquintana.personalfinancemanager.dto.AuthResponse;
+import com.abrahamquintana.personalfinancemanager.security.dto.AuthRequest;
+import com.abrahamquintana.personalfinancemanager.security.dto.AuthResponse;
 import com.abrahamquintana.personalfinancemanager.model.User;
 import com.abrahamquintana.personalfinancemanager.repository.UserRepository;
 import com.abrahamquintana.personalfinancemanager.security.JwtService;
