@@ -1,9 +1,11 @@
 package com.abrahamquintana.personalfinancemanager.controller;
 
 import com.abrahamquintana.personalfinancemanager.dto.UserDto;
+import com.abrahamquintana.personalfinancemanager.dto.UserFinancialStateDto;
 import com.abrahamquintana.personalfinancemanager.mapper.UserMapper;
 import com.abrahamquintana.personalfinancemanager.model.User;
 import com.abrahamquintana.personalfinancemanager.service.AuthService;
+import com.abrahamquintana.personalfinancemanager.service.UserFinancialStateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,12 @@ public class UserController {
 
     private final AuthService authService;
 
-    public UserController(AuthService authService) {
+    private final UserFinancialStateService userFinancialStateService;
+
+    public UserController(AuthService authService,
+                          UserFinancialStateService userFinancialStateService) {
         this.authService = authService;
+        this.userFinancialStateService = userFinancialStateService;
     }
 
     /**
@@ -31,4 +37,17 @@ public class UserController {
         User user = authService.getAuthenticatedUser();
         return ResponseEntity.ok(UserMapper.toDto(user));
     }
+
+    /**
+     * Returns the complete financial state of the authenticated user.
+     *
+     * @return UserFinancialStateDto with balance and transaction data
+     */
+    @GetMapping("/state")
+    public ResponseEntity<UserFinancialStateDto> getUserState() {
+        User user = authService.getAuthenticatedUser();
+        UserFinancialStateDto state = userFinancialStateService.computeState(user);
+        return ResponseEntity.ok(state);
+    }
+
 }
