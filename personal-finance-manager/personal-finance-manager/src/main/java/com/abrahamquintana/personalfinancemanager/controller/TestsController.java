@@ -14,12 +14,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @RestController("/test")
-public class TestsControler {
+public class TestsController {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final TransactionRepository transactionRepository;
 
-    public TestsControler(UserRepository userRepository, CategoryRepository categoryRepository, TransactionRepository transactionRepository) {
+    public TestsController(UserRepository userRepository, CategoryRepository categoryRepository, TransactionRepository transactionRepository) {
         this.userRepository = userRepository;
         this.categoryRepository = categoryRepository;
         this.transactionRepository = transactionRepository;
