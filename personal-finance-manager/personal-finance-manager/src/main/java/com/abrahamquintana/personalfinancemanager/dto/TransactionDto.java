@@ -1,5 +1,6 @@
 package com.abrahamquintana.personalfinancemanager.dto;
 
+import com.abrahamquintana.personalfinancemanager.model.RecurrenceType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import java.math.BigDecimal;
@@ -33,4 +34,7 @@ public class TransactionDto {
 
     /** Name of the associated category. */
     private String categoryName;
+
+    /** Recurrence type associated to this transaction */
+    private RecurrenceType recurrence;
 }

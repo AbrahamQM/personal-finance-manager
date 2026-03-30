@@ -3,16 +3,16 @@ package com.abrahamquintana.personalfinancemanager.service;
 import com.abrahamquintana.personalfinancemanager.dto.TransactionDto;
 import com.abrahamquintana.personalfinancemanager.dto.UserFinancialStateDto;
 import com.abrahamquintana.personalfinancemanager.mapper.TransactionMapper;
-import com.abrahamquintana.personalfinancemanager.model.Transaction;
-import com.abrahamquintana.personalfinancemanager.model.TransactionType;
-import com.abrahamquintana.personalfinancemanager.model.User;
+import com.abrahamquintana.personalfinancemanager.model.*;
 import com.abrahamquintana.personalfinancemanager.repository.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +33,7 @@ public class UserFinancialStateService {
      */
     public UserFinancialStateDto computeState(User user) {
 
-        generateRecurringTransactionsIfNeeded(user);
+        generateAndUpdateRecurringTransactionsIfNeeded(user);
 
         List<Transaction> monthTransactions = getTransactionsForCurrentMonth(user);
 
@@ -58,17 +58,6 @@ public class UserFinancialStateService {
         );
     }
 
-    // -------------------------------------------------------------------------
-    //  RECURRING TRANSACTIONS (placeholder, se implementará después)
-    // -------------------------------------------------------------------------
-
-    /**
-     * Generates new transactions from recurring rules if their execution date is due.
-     */
-    private void generateRecurringTransactionsIfNeeded(User user) {
-        // TODO: Implementar lógica de recurrencia
-        System.out.println("generateRecurringTransactionsIfNeeded Por crear");
-    }
 
     // -------------------------------------------------------------------------
     //  TRANSACTION FILTERING
@@ -192,6 +181,83 @@ public class UserFinancialStateService {
                 RoundingMode.HALF_UP
         );
     }
+
+    // -------------------------------------------------------------------------
+    //  RECURRING TRANSACTIONS (placeholder, se implementará después)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Generates new transactions from recurring rules if their execution date is due
+     * And marks the ald transactions with recurrence = No
+     */
+    @Transactional
+    private void generateAndUpdateRecurringTransactionsIfNeeded(User user) {
+        LocalDate today = LocalDate.now();
+        List<Transaction> allTransactions = transactionRepository.findByUserAndRecurrenceNot(user, RecurrenceType.NO);
+        List<Transaction> transactionsToSave = new ArrayList<>();
+
+        allTransactions.forEach( transaction -> {
+            //define next transaction date
+            if(transaction.getDate().isBefore(today)) {
+                LocalDate recurrenceDate = transaction.getRecurrence().equals(RecurrenceType.MONTHLY) ? //TODO comprobar si es yearly antes de asignarle fecha
+                        advanceMonthly(transaction.getDate()) : advanceYearly(transaction.getDate());
+
+                // Generate next transaction based on the recurrence rule
+                Transaction nextTransaction = Transaction.builder()
+                        .amount(transaction.getAmount())
+                        .date(recurrenceDate) // Placeholder for monthly advancement
+                        .description(transaction.getDescription())
+                        .type(transaction.getType())
+                        .origin(TransactionOrigin.RECURRING)
+                        .user(transaction.getUser())
+                        .category(transaction.getCategory())
+                        .recurrence(transaction.getRecurrence())
+                        .build();
+
+                //mark old transaction as NO recurrence
+                transaction.setRecurrence(RecurrenceType.NO);
+
+                //add old and new transaction to the list of transactions to be saved
+                transactionsToSave.add(transaction);
+                transactionsToSave.add(nextTransaction);
+            }
+        });
+
+        transactionRepository.saveAll(transactionsToSave);
+    }
+
+
+    /**
+     * Advance a date by one month while keeping the original day when possible.
+     * If the next month doesn't have the same day (e.g. 31 -> February), the
+     * result will be the last valid day of the next month.
+     *
+     * @param date current date
+     * @return date advanced by one month with safe day handling
+     */
+    private LocalDate advanceMonthly(LocalDate date) {
+        int day = date.getDayOfMonth();
+        LocalDate next = date.plusMonths(1);
+        int lastDay = next.lengthOfMonth();
+        return next.withDayOfMonth(Math.min(day, lastDay));
+    }
+
+    /**
+     * Advance a date by one year while keeping the original day when possible.
+     * If the next year doesn't have the same day (e.g. Feb 29 -> non-leap year),
+     * the result will be the last valid day of the same month in the next year.
+     *
+     * @param date current date
+     * @return date advanced by one year with safe day handling
+     */
+    private LocalDate advanceYearly(LocalDate date) {
+        int day = date.getDayOfMonth();
+        LocalDate next = date.plusYears(1);
+        int lastDay = next.lengthOfMonth();
+        return next.withDayOfMonth(Math.min(day, lastDay));
+    }
+
+
 
     // -------------------------------------------------------------------------
     //  DTO BUILDER

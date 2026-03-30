@@ -25,7 +25,8 @@ public class TransactionMapper {
                 transaction.getDescription(),
                 transaction.getType().name(),
                 transaction.getCategory().getId(),
-                transaction.getCategory().getName()
+                transaction.getCategory().getName(),
+                transaction.getRecurrence()
         );
     }
 }

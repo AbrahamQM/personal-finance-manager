@@ -30,13 +30,8 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type; // INCOME o EXPENSE
 
-    /**
-     * Indicates whether the transaction is real, predicted or generated
-     * from a recurring rule.
-     */
     @Enumerated(EnumType.STRING)
     private TransactionOrigin origin; // REAL, PREDICTED, RECURRING
-
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -45,4 +40,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RecurrenceType recurrence;
+
 }
