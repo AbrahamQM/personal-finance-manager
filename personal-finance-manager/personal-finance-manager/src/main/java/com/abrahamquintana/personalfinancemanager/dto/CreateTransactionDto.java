@@ -1,5 +1,6 @@
 package com.abrahamquintana.personalfinancemanager.dto;
 
+import com.abrahamquintana.personalfinancemanager.model.RecurrenceType;
 import lombok.Getter;
 import lombok.Setter;
 import java.math.BigDecimal;
@@ -27,4 +28,7 @@ public class CreateTransactionDto {
 
     /** Identifier of the category to associate the transaction with. */
     private Long categoryId;
+
+    /** Recurrence type associated to this transaction */
+    private RecurrenceType recurrence;
 }

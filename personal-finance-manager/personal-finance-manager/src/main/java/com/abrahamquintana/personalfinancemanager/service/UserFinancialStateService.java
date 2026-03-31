@@ -2,6 +2,7 @@ package com.abrahamquintana.personalfinancemanager.service;
 
 import com.abrahamquintana.personalfinancemanager.dto.TransactionDto;
 import com.abrahamquintana.personalfinancemanager.dto.UserFinancialStateDto;
+import com.abrahamquintana.personalfinancemanager.exceptions.UnsupportedRecurrenceTypeException;
 import com.abrahamquintana.personalfinancemanager.mapper.TransactionMapper;
 import com.abrahamquintana.personalfinancemanager.model.*;
 import com.abrahamquintana.personalfinancemanager.repository.TransactionRepository;
@@ -35,13 +36,13 @@ public class UserFinancialStateService {
 
         generateAndUpdateRecurringTransactionsIfNeeded(user);
 
-        List<Transaction> monthTransactions = getTransactionsForCurrentMonth(user);
+        List<Transaction> monthTransactions = getTransactionsForCurrentAndNextMonth(user);
 
         List<TransactionDto> past = filterPastTransactions(monthTransactions);
         List<TransactionDto> future = filterFutureTransactions(monthTransactions);
 
-        BigDecimal income = calculateIncome(monthTransactions);
-        BigDecimal expenses = calculateExpenses(monthTransactions);
+        BigDecimal income = calculateIncome(past);
+        BigDecimal expenses = calculateExpenses(past);
 
         BigDecimal currentBalance = calculateCurrentBalance(income, expenses);
         BigDecimal dailyAvailable = calculateDailyAvailable(currentBalance, future);
@@ -66,12 +67,13 @@ public class UserFinancialStateService {
     /**
      * Retrieves all transactions of the current month for the given user.
      */
-    private List<Transaction> getTransactionsForCurrentMonth(User user) {
+    private List<Transaction> getTransactionsForCurrentAndNextMonth(User user) {
         LocalDate today = LocalDate.now();
         YearMonth month = YearMonth.from(today);
 
         return transactionRepository.findByUser(user).stream()
-                .filter(t -> YearMonth.from(t.getDate()).equals(month))
+                .filter(t -> YearMonth.from(t.getDate()).equals(month) ||
+                             YearMonth.from(t.getDate()).equals(month.plusMonths(1)))
                 .toList();
     }
 
@@ -92,6 +94,7 @@ public class UserFinancialStateService {
     private List<TransactionDto> filterFutureTransactions(List<Transaction> transactions) {
         LocalDate today = LocalDate.now();
         return transactions.stream()
+                .filter(t -> t.getDate().getMonth().equals(today.getMonth()))
                 .filter(t -> t.getDate().isAfter(today))
                 .map(TransactionMapper::toDto)
                 .toList();
@@ -104,20 +107,20 @@ public class UserFinancialStateService {
     /**
      * Sums all income transactions of the month.
      */
-    private BigDecimal calculateIncome(List<Transaction> transactions) {
+    private BigDecimal calculateIncome(List<TransactionDto> transactions) {
         return transactions.stream()
                 .filter(t -> t.getType() == TransactionType.INCOME)
-                .map(Transaction::getAmount)
+                .map(TransactionDto::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     /**
      * Sums all expense transactions of the month.
      */
-    private BigDecimal calculateExpenses(List<Transaction> transactions) {
+    private BigDecimal calculateExpenses(List<TransactionDto> transactions) {
         return transactions.stream()
                 .filter(t -> t.getType() == TransactionType.EXPENSE)
-                .map(Transaction::getAmount)
+                .map(TransactionDto::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -136,12 +139,12 @@ public class UserFinancialStateService {
         YearMonth month = YearMonth.from(today);
 
         BigDecimal futureExpenses = future.stream()
-                .filter(t -> t.getType().equals("EXPENSE"))
+                .filter(t -> t.getType().equals(TransactionType.EXPENSE))
                 .map(TransactionDto::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         BigDecimal futureIncome = future.stream()
-                .filter(t -> t.getType().equals("INCOME"))
+                .filter(t -> t.getType().equals(TransactionType.INCOME))
                 .map(TransactionDto::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -160,7 +163,7 @@ public class UserFinancialStateService {
     private BigDecimal calculateTodayAvailable(BigDecimal dailyAvailable, List<TransactionDto> past) {
         BigDecimal spentToday = past.stream()
                 .filter(t -> t.getDate().equals(LocalDate.now()))
-                .filter(t -> t.getType().equals("EXPENSE"))
+                .filter(t -> t.getType().equals(TransactionType.EXPENSE))
                 .map(TransactionDto::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -199,31 +202,65 @@ public class UserFinancialStateService {
         allTransactions.forEach( transaction -> {
             //define next transaction date
             if(transaction.getDate().isBefore(today)) {
-                LocalDate recurrenceDate = transaction.getRecurrence().equals(RecurrenceType.MONTHLY) ? //TODO comprobar si es yearly antes de asignarle fecha
-                        advanceMonthly(transaction.getDate()) : advanceYearly(transaction.getDate());
+                LocalDate recurrenceDate = getRecurrenceDate(transaction);
 
                 // Generate next transaction based on the recurrence rule
-                Transaction nextTransaction = Transaction.builder()
-                        .amount(transaction.getAmount())
-                        .date(recurrenceDate) // Placeholder for monthly advancement
-                        .description(transaction.getDescription())
-                        .type(transaction.getType())
-                        .origin(TransactionOrigin.RECURRING)
-                        .user(transaction.getUser())
-                        .category(transaction.getCategory())
-                        .recurrence(transaction.getRecurrence())
-                        .build();
+                Transaction nextTransaction = getNextTransaction(transaction, recurrenceDate);
 
                 //mark old transaction as NO recurrence
                 transaction.setRecurrence(RecurrenceType.NO);
 
-                //add old and new transaction to the list of transactions to be saved
-                transactionsToSave.add(transaction);
+                //add old  transaction to the list of transactions to be saved
+//                transactionsToSave.add(transaction);
                 transactionsToSave.add(nextTransaction);
             }
         });
 
         transactionRepository.saveAll(transactionsToSave);
+    }
+
+    /**
+     * Compute the next recurrence date for a given transaction.
+     *
+     * <p>This method supports monthly and yearly recurrence types only.
+     * If the transaction has any other recurrence value, an exception is thrown.</p>
+     *
+     * @param transaction the transaction whose next recurrence date must be computed
+     * @return the computed next execution date according to the transaction recurrence
+     * @throws UnsupportedRecurrenceTypeException if the transaction recurrence is not MONTHLY or YEARLY
+     */
+    private LocalDate getRecurrenceDate(Transaction transaction) {
+        if(transaction.getRecurrence() != RecurrenceType.MONTHLY && transaction.getRecurrence() != RecurrenceType.YEARLY ){
+            throw new UnsupportedRecurrenceTypeException("Only MONTHLY and YEARLY recurrence types are supported. Found type: "
+                                                         + transaction.getRecurrence());
+        }
+
+        return transaction.getRecurrence().equals(RecurrenceType.MONTHLY) ?
+                advanceMonthly(transaction.getDate()) : advanceYearly(transaction.getDate());
+    }
+
+    /**
+     * Build the next Transaction instance representing the next occurrence.
+     *
+     * <p>The returned Transaction is a new entity instance with origin set to RECURRING.
+     * It preserves the recurrence value so the new transaction remains the active recurrence
+     * entry in the system.</p>
+     *
+     * @param transaction the source transaction used as template
+     * @param recurrenceDate the date for the next occurrence
+     * @return a new Transaction instance representing the next occurrence
+     */
+    private static Transaction getNextTransaction(Transaction transaction, LocalDate recurrenceDate) {
+        return Transaction.builder()
+                .amount(transaction.getAmount())
+                .date(recurrenceDate) // Placeholder for monthly advancement
+                .description(transaction.getDescription())
+                .type(transaction.getType())
+                .origin(TransactionOrigin.RECURRING)
+                .user(transaction.getUser())
+                .category(transaction.getCategory())
+                .recurrence(transaction.getRecurrence())
+                .build();
     }
 
 

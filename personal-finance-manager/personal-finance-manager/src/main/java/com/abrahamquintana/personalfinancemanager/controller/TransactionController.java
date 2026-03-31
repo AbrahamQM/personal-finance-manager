@@ -77,6 +77,7 @@ public class TransactionController {
                 .type(TransactionType.valueOf(dto.getType()))
                 .category(category)
                 .user(user)
+                .recurrence(dto.getRecurrence())
                 .build();
 
         Transaction saved = transactionRepository.save(transaction);

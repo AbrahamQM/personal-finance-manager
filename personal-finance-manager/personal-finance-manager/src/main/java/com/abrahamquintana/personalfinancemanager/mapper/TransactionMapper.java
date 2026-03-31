@@ -23,7 +23,7 @@ public class TransactionMapper {
                 transaction.getAmount(),
                 transaction.getDate(),
                 transaction.getDescription(),
-                transaction.getType().name(),
+                transaction.getType(),
                 transaction.getCategory().getId(),
                 transaction.getCategory().getName(),
                 transaction.getRecurrence()
