@@ -1,17 +1,9 @@
----
-
-```markdown
-# Personal Financial Manager – Backend Setup
-
-This document explains how to run the backend of the Personal Financial Manager project, how to configure the database connection, and how to start the application in a local development environment.
-
----
 
 ## 1. Requirements
 
 Before running the backend, make sure you have the following installed:
 
-- **Java 26+**
+- **Java 21+**
 - **Maven** (if not using the Maven wrapper)
 - **Docker Desktop** (required for the PostgreSQL container)
 - **Postman** or any REST client (optional, for testing)
