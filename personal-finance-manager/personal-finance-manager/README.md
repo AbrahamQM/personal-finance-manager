@@ -137,7 +137,6 @@ Use this only if you want to reset the database completely.
 ```
 personal-finance-manager/
 │
-├── .idea/                     # IntelliJ project settings (auto‑generated)
 ├── .mvn/                      # Maven wrapper files
 ├── mvnw                       # Maven wrapper (Linux/Mac)
 ├── mvnw.cmd                   # Maven wrapper (Windows)
