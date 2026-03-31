@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: postgres_for_personal_finantial_manager
+    environment:
+      POSTGRES_PASSWORD: PFMAdmin
+      POSTGRES_USER: postgres
+      POSTGRES_DB: pfm
+    ports:
+      - "5432:5432"
+    volumes:
+      - pfmBD:/var/lib/postgresql
+
+volumes:
+  pfmBD:
