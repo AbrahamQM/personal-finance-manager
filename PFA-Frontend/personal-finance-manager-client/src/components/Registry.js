@@ -1,23 +1,24 @@
-// src/components/Login.js
-import { useState, useContext } from "react";
-import { loginUser } from "../services/authService";
+import { useState, useContext } from 'react';
+import { registerUser, saveToken } from '../services/authService';
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+export default function Registry() {
+    // Local component state
     const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const data = await loginUser(email, password);
+            const data = await registerUser(email, password);
             login(email, data.token);
-            console.log("Logged in:", data); //TODO quitar datos sensibles
+            console.log("Registered in:", data);//TODO quitar datos sensibles
             navigate("/profile");
         } catch (err) {
             setError(err.message);
@@ -26,13 +27,13 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2>Login</h2>
-
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            <h2>Registro</h2>
 
             <form className="login-form" onSubmit={handleSubmit}>
-                <label>Email</label>
+                {/* Email input */}
+                <label htmlFor="email">Email</label>
                 <input
+                    id="email"
                     type="email"
                     placeholder="Introduce tu email"
                     value={email}
@@ -40,8 +41,10 @@ const Login = () => {
                     required
                 />
 
-                <label>Password</label>
+                {/* Password input */}
+                <label htmlFor="password">Password</label>
                 <input
+                    id="password"
                     type="password"
                     placeholder="Introduce tu contraseña"
                     value={password}
@@ -49,12 +52,11 @@ const Login = () => {
                     required
                 />
 
+                {/* Submit button */}
                 <button type="submit" className="login-btn">
                     Login
                 </button>
             </form>
         </div>
     );
-};
-
-export default Login;
+}

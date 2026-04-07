@@ -32,6 +32,8 @@ html, body, #root { height: 100%; margin: 0; background: var(--bg); font-family:
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+  color: var(--primary-700);
+  /* background-color: black; */
 }
 
 /* Header */
@@ -144,4 +146,46 @@ html, body, #root { height: 100%; margin: 0; background: var(--bg); font-family:
 .MuiButton-containedPrimary {
   background-color: var(--accent);
   color: white;
+}
+
+
+/* Login container */
+.login-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 24px;
+  background: var(--surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Form layout */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Inputs */
+.login-form input {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Button */
+.login-btn {
+  padding: 12px;
+  background: var(--primary-500);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.login-btn:hover {
+  background: var(--primary-700);
 }
