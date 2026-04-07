@@ -35,23 +35,46 @@ html, body, #root { height: 100%; margin: 0; background: var(--bg); font-family:
 }
 
 /* Header */
+/* Header layout */
 .app-header {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: space-between; /* pushes nav to the right */
   padding: 18px 24px;
   background: linear-gradient(90deg, var(--primary-700), var(--primary-500));
   color: white;
   box-shadow: 0 2px 6px rgba(11,43,26,0.12);
-  position: sticky;
-  top: 0;
-  z-index: 50;
+}
+
+/* Left side: logo + title */
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Navigation aligned to the right */
+.app-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.app-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.app-nav a:hover {
+  opacity: 0.8;
 }
 
 /* Logo */
 .app-logo {
   width: 100px;
   height: 100px;
+  margin-left: 25px;
   object-fit: contain;
   border-radius: 8px;
   background: rgba(255,255,255,0.06);
