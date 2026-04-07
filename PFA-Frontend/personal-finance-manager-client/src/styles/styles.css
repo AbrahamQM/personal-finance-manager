@@ -1,14 +1,124 @@
+/* src/styles/styles.css */
+
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --bg: #f6fbf7;
+  --surface: #ffffff;
+  --primary-700: #0f7a4a;
+  --primary-500: #2aa06a;
+  --primary-300: #7bd59a;
+  --muted: #6b7280;
+  --accent: #0b5f36;
+  --text: #0b2b1a;
+}
+
+/* Reset mínimo */
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; background: var(--bg); font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; color: var(--text); }
+
+/* Main Layout: header, footer, content/components */
+.App {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main */
+.App-main {
+  flex: 1 0 auto;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Header */
 .app-header {
-    padding: 20px;
-    background-color: #282c34;
-    color: white;
-  }
-  
-  .app-footer {
-    padding: 20px;
-    margin-top: 100px;
-    text-align: center;
-    background-color: #282c34;
-    color: #666;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, var(--primary-700), var(--primary-500));
+  color: white;
+  box-shadow: 0 2px 6px rgba(11,43,26,0.12);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* Logo */
+.app-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+  padding: 6px;
+}
+
+/* Title */
+.app-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  margin: 0;
+}
+
+/* Subtitle */
+.app-subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+/* Footer */
+.app-footer {
+  flex-shrink: 0;
+  padding: 18px 24px;
+  background: linear-gradient(90deg, var(--primary-500), var(--primary-300));
+  color: white;
+  text-align: center;
+  box-shadow: 0 -2px 6px rgba(11,43,26,0.08);
+}
+
+/* Footer content */
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/*  author  link */
+.footer-link {
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+/* GitHub */
+.github-icon {
+  width: 20px;
+  height: 20px;
+  fill: white;
+  opacity: 0.95;
+}
+
+/* Details */
+.small-muted {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.9rem;
+}
+
+/* MUI buttons  */
+.MuiButton-containedPrimary {
+  background-color: var(--accent);
+  color: white;
+}
