@@ -1,15 +1,15 @@
-import './App.css';
-import Footer from './components/Footer';
+// src/App.js
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <div className="content">
-        <h2>Welcome to Personal Financial Management App</h2>
-        <p>Track your expenses, manage your budget, and achieve your financial goals.</p>
-      </div>
+      <main className="App-main">
+        {/* Aquí irá el router o las páginas */}
+        <p>Contenido principal</p>
+      </main>
       <Footer />
     </div>
   );
