@@ -1,0 +1,14 @@
+.app-header {
+    padding: 20px;
+    background-color: #282c34;
+    color: white;
+  }
+  
+  .app-footer {
+    padding: 20px;
+    margin-top: 100px;
+    text-align: center;
+    background-color: #282c34;
+    color: #666;
+  }
+  
