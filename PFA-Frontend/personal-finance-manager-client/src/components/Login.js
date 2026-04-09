@@ -17,7 +17,6 @@ const Login = () => {
         try {
             const data = await loginUser(email, password);
             login(email, data.token);
-            console.log("Logged in:", data); //TODO quitar datos sensibles
             navigate("/profile");
         } catch (err) {
             setError(err.message);

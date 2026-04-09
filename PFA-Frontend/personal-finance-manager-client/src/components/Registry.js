@@ -18,7 +18,6 @@ export default function Registry() {
         try {
             const data = await registerUser(email, password);
             login(email, data.token);
-            console.log("Registered in:", data);//TODO quitar datos sensibles
             navigate("/profile");
         } catch (err) {
             setError(err.message);
