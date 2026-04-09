@@ -1,6 +1,13 @@
 // src/context/AuthContext.js
 import { createContext, useState, useEffect } from "react";
-import { getToken, saveToken, logoutUser } from "../services/authService";
+import { 
+  getToken, 
+  saveToken, 
+  logoutUser, 
+  saveUserEmail, 
+  getUserEmail, 
+  removeUserEmail 
+} from "../services/authService";
 
 // Create the context
 export const AuthContext = createContext();
@@ -13,29 +20,36 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // { email: "...", token: "..." }
   const [loading, setLoading] = useState(true);
 
-  // Load user from localStorage on first render
+  /**
+   * Load user from localStorage on first render.
+   * This ensures the user stays logged in after page refresh.
+   */
   useEffect(() => {
     const token = getToken();
-    if (token) {
-      // TODO: decode token or fetch user info if needed
-      setUser({ email: "unknown", token }); 
+    const email = getUserEmail();
+
+    if (token && email) {
+      setUser({ email, token });
     }
+
     setLoading(false);
   }, []);
 
   /**
-   * Handles login: saves token and updates user state.
+   * Handles login: saves token and email, updates user state.
    */
   const login = (email, token) => {
     saveToken(token);
+    saveUserEmail(email);
     setUser({ email, token });
   };
 
   /**
-   * Handles logout: clears token and resets user state.
+   * Handles logout: clears token and email, resets user state.
    */
   const logout = () => {
     logoutUser();
+    removeUserEmail();
     setUser(null);
   };
 

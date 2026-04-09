@@ -81,6 +81,30 @@ html, body, #root {
   opacity: 0.8;
 }
 
+/* Email text inside nav */
+.nav-email {
+  color: white;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+/* Logout button */
+.nav-btn {
+  background: transparent;
+  border: 1px solid white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+  margin-top: -4px;
+}
+
+.logout-btn:hover {
+  opacity: 0.8;
+}
+
 /* Logo */
 .app-logo {
   width: 100px;

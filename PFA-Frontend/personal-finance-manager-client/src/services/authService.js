@@ -59,3 +59,26 @@ export const getToken = () => {
 export const logoutUser = () => {
     localStorage.removeItem("authToken");
 };
+
+/**
+ * Saves user email in localStorage.
+ */
+export const saveUserEmail = (email) => {
+  localStorage.setItem("authEmail", email);
+};
+
+/**
+ * Returns user email from localStorage.
+ */
+export const getUserEmail = () => {
+  return localStorage.getItem("authEmail");
+};
+
+/**
+ * Removes user email from localStorage.
+ */
+export const removeUserEmail = () => {
+  localStorage.removeItem("authEmail");
+};
+
+
