@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Registry from "../components/Registry";
+import Profile from "../components/Profile";
+import RequireAuth from "./RequireAuth";
 
 // Pages
 import Home from "../components/Home";
@@ -19,7 +21,15 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registry" element={<Registry />} />
-          <Route path="/profile" element={<h2>Crear componente perfil de usuario</h2>} />
+          {/* Protected route */}
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <Profile />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </main>
 
