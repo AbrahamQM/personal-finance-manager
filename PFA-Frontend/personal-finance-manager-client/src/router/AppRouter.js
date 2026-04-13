@@ -3,8 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Registry from "../components/Registry";
-import Profile from "../components/Profile";
 import RequireAuth from "./RequireAuth";
+import Profile from "../components/Profile";
+import Category from "../components/Category";
 
 // Pages
 import Home from "../components/Home";
@@ -27,6 +28,14 @@ const AppRouter = () => {
             element={
               <RequireAuth>
                 <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/category"
+            element={
+              <RequireAuth>
+                <Category />
               </RequireAuth>
             }
           />
