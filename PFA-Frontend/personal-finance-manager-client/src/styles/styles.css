@@ -222,3 +222,25 @@ html, body, #root {
 .login-btn:hover {
   background: var(--primary-700);
 }
+
+
+/* Profile container */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  text-align: center;
+}
+
+/* Profile card */
+.profile-card {
+  background: var(--surface);
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.profile-card h3 {
+  margin-top: 20px;
+  color: var(--primary-700);
+}
