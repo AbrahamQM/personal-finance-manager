@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { getUserState } from "../services/userService";
-import { Link } from "react-router-dom";
+import UserNav from "./UserNav";
 
 const Profile = () => {
     const { user } = useContext(AuthContext);
@@ -22,14 +22,8 @@ const Profile = () => {
     }, []);
 
     return (
-
         <div className="container">
-            <nav className="page-subnav">
-                <Link to="/category">
-                    <button className="nav-btn">Gestionar categorías</button>
-                </Link>
-            </nav>
-
+            <UserNav />
             <h2>Perfil de usuario</h2>
             <div className="profile-card">
                 <h3>Información de la cuenta</h3>

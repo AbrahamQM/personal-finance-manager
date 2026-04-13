@@ -2,14 +2,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Registry from "../components/Registry";
 import RequireAuth from "./RequireAuth";
-import Profile from "../components/Profile";
-import Category from "../components/Category";
 
 // Pages
 import Home from "../components/Home";
+import Registry from "../components/Registry";
 import Login from "../components/Login";
+import Profile from "../components/Profile";
+import Category from "../components/Category";
+import Transaction from "../components/Transaction";
 
 const AppRouter = () => {
   return (
@@ -22,23 +23,10 @@ const AppRouter = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/registry" element={<Registry />} />
-          {/* Protected route */}
-          <Route
-            path="/profile"
-            element={
-              <RequireAuth>
-                <Profile />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/category"
-            element={
-              <RequireAuth>
-                <Category />
-              </RequireAuth>
-            }
-          />
+          {/* Protected routes */}
+          <Route path="/profile" element={<RequireAuth> <Profile /> </RequireAuth>} />
+          <Route path="/category" element={<RequireAuth> <Category /> </RequireAuth>} />
+          <Route path="/transaction" element={<RequireAuth> <Transaction /> </RequireAuth>} />
         </Routes>
       </main>
 

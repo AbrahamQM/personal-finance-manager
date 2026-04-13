@@ -273,20 +273,8 @@ html, body, #root {
 .page-subnav .nav-btn:hover {
   opacity: 0.8;
 }
-/* 
-/* Lighter secondary variant for other page buttons 
-.page-subnav .nav-btn.secondary {
-  background: var(--primary-300);
-  color: var(--text);
-  border: 1px solid rgba(0,0,0,0.06);
-} */
-
-/* Category list - container */
-.categories-container {
-  max-width: 720px;
-  margin: 24px auto;
-  padding: 20px;
-}
+ 
+/* Category */
 
 /* Form */
 .category-form {

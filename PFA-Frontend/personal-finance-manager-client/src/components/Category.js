@@ -1,6 +1,7 @@
 // src/components/Category.js
 import { useState, useEffect } from "react";
 import { getCategory, createCategory } from "../services/categoryService";
+import UserNav from "./UserNav";
 
 const Category = () => {
     const [categories, setCategory] = useState([]);
@@ -33,7 +34,8 @@ const Category = () => {
     };
 
     return (
-        <div className="categories-container">
+        <div className="container">
+            <UserNav />
             <h2>Categorías</h2>
 
             <form className="category-form" onSubmit={handleSubmit}>

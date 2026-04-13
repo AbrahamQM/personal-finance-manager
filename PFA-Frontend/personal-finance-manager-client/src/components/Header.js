@@ -52,16 +52,11 @@ const Header = () => {
           </>
         )}
 
-        {/* If authenticated → show Profile + Logout */}
+        {/* If authenticated → show Logout */}
         {isAuthenticated && (
           <>
             <span className="nav-email">{user.email}</span>
             <InicioButton/>
-            <Link to="/profile">
-              <button className="nav-btn">
-                Perfil
-              </button>
-            </Link>
             <button className="nav-btn" onClick={handleLogout}>
               Logout
             </button>

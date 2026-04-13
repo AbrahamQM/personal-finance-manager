@@ -1,10 +1,19 @@
 // src/components/Home.js
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import UserNav from "./UserNav";
 
 const Home = () => {
+  const { user, isAuthenticated } = useContext(AuthContext);
+
   return (
     <div className="container">
-      <h2>Home</h2>
-      <p>Bienvenido a Personal Financial Management APP</p>
+      {/* If authenticated → show UserNav */}
+      {isAuthenticated && (
+        <UserNav />
+      )}
+      <h2>Bienvenido</h2>
+      <p>{isAuthenticated ? user?.email : ""} a Personal Financial Management APP</p>
     </div>
   );
 };
