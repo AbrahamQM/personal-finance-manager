@@ -253,6 +253,111 @@ html, body, #root {
   align-items: center;
   justify-content: flex-start;
 }
+/* Financial summary styles used in Profile */
+.financial-summary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Large balance card */
+.fs-card.balance {
+  background: linear-gradient(90deg, rgba(42,160,106,0.06), rgba(11,95,54,0.03));
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(11,43,26,0.04);
+}
+
+.fs-card.row {
+  display: flex;
+  gap: 12px;
+}
+
+.fs-card.available {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(11,43,26,0.04);
+  background: var(--surface);
+}
+
+/* Individual items inside row */
+.fs-item {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid rgba(11,43,26,0.03);
+  box-shadow: 0 4px 10px rgba(11,43,26,0.03);
+}
+
+/* Labels and values */
+.fs-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.fs-value {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* Color accents */
+.fs-item.income .fs-value,
+.fs-card.balance .fs-value {
+  color: var(--primary-700);
+}
+
+.fs-item.expense .fs-value {
+  color: #b91c1c; /* red for expenses */
+}
+
+/* Mini transactions preview */
+.mini-tx-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mini-tx-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.02);
+  font-size: 0.95rem;
+}
+
+.mini-tx-amount.income {
+  color: var(--primary-700);
+  font-weight: 700;
+}
+
+.mini-tx-amount.expense {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.mini-tx-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .fs-card.row {
+    flex-direction: column;
+  }
+}
+
 
 /* Override header-style nav-btn for page subnav */
 .page-subnav .nav-btn {
