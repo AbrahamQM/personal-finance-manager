@@ -13,7 +13,7 @@ const Home = () => {
         <UserNav />
       )}
       <h2>Bienvenido</h2>
-      <p>{isAuthenticated ? user?.email : ""} a Personal Financial Management APP</p>
+      <p>{isAuthenticated ? user?.email : ""} Personal Financial Management APP</p>
     </div>
   );
 };
