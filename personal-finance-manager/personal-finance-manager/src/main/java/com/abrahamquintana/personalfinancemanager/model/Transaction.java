@@ -30,9 +30,6 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type; // INCOME o EXPENSE
 
-    @Enumerated(EnumType.STRING)
-    private TransactionOrigin origin; // REAL, PREDICTED, RECURRING
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

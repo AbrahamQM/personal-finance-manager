@@ -211,7 +211,6 @@ public class UserFinancialStateService {
                 transaction.setRecurrence(RecurrenceType.NO);
 
                 //add old  transaction to the list of transactions to be saved
-//                transactionsToSave.add(transaction);
                 transactionsToSave.add(nextTransaction);
             }
         });
@@ -242,7 +241,7 @@ public class UserFinancialStateService {
     /**
      * Build the next Transaction instance representing the next occurrence.
      *
-     * <p>The returned Transaction is a new entity instance with origin set to RECURRING.
+     * <p>The returned Transaction is a new entity instance.
      * It preserves the recurrence value so the new transaction remains the active recurrence
      * entry in the system.</p>
      *
@@ -256,7 +255,6 @@ public class UserFinancialStateService {
                 .date(recurrenceDate) // Placeholder for monthly advancement
                 .description(transaction.getDescription())
                 .type(transaction.getType())
-                .origin(TransactionOrigin.RECURRING)
                 .user(transaction.getUser())
                 .category(transaction.getCategory())
                 .recurrence(transaction.getRecurrence())
