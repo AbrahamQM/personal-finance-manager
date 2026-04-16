@@ -37,7 +37,7 @@ const Category = () => {
         <div className="container">
             <UserNav />
             <h2>Categorías</h2>
-
+            <p>Atención las categorías no se podrán borrar debido a que están asociadas a transacciones.</p>
             <form className="category-form" onSubmit={handleSubmit}>
                 <input
                     type="text"
