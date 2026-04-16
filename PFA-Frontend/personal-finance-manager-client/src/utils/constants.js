@@ -13,12 +13,12 @@ export const USER_ENDPOINTS = {
 export const CATEGORY_ENDPOINTS = {
     ALL: "/categories",
     CREATE: "/categories",
-    UPDATE: (id) => `/categories/${id}`,
-    DELETE: (id) => `/categories/${id}`
+    UPDATE: "/categories", //todo Not used yet, but we can implement it in the future if needed
+    DELETE: "/categories"
 };
 
 export const TRANSACTION_ENDPOINTS = {
     ALL: "/transactions",
     CREATE: "/transactions",    
-    DELETE: (id) => `/transactions/${id}`
+    DELETE: "/transactions"
 };
