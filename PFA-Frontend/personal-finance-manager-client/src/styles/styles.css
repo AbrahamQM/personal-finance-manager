@@ -358,6 +358,32 @@ html, body, #root {
   }
 }
 
+/* Make transaction list scrollable when it has many items */
+.transaction-list.scrollable {
+  max-height: 500px; /* muestra aprox. 4 items; ajusta según tu item height */
+  overflow-y: auto;
+  padding-right: 8px; /* evita que el contenido quede pegado al scrollbar */
+}
+
+.transaction-list.scrollable::-webkit-scrollbar {
+  width: 10px;
+}
+.transaction-list.scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+.transaction-list.scrollable::-webkit-scrollbar-thumb {
+  background: rgba(11,43,26,0.12);
+  border-radius: 8px;
+}
+.transaction-list.scrollable::-webkit-scrollbar-thumb:hover {
+  background: rgba(11,43,26,0.18);
+}
+
+/* Optional: ensure consistent spacing at the bottom */
+.transaction-list.scrollable .transaction-item:last-child {
+  margin-bottom: 6px;
+}
+
 
 /* Override header-style nav-btn for page subnav */
 .page-subnav .nav-btn {

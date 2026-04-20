@@ -133,7 +133,7 @@ const Transaction = () => {
                                 step="0.01"
                                 value={form.amount}
                                 onChange={handleChange}
-                                placeholder="0.00"
+                                placeholder="0.00€"
                             />
                         </div>
 
@@ -188,12 +188,12 @@ const Transaction = () => {
                     {loading && <p>Cargando transacciones...</p>}
                     {!loading && transactions.length === 0 && <p>No hay transacciones registradas.</p>}
                     {!loading && transactions.length > 0 && (
-                        <div className="transaction-list">
+                        <div className={`transaction-list ${transactions.length > 4 ? "scrollable" : ""}`}>
                             {transactions.map((t) => (
                                 <div key={t.id} className={`transaction-item ${t.type === "INCOME" ? "income" : "expense"}`}>
                                     <div className="transaction-main">
                                         <div className="transaction-top">
-                                            <span className="transaction-amount">{t.amount}</span>
+                                            <span className="transaction-amount">{t.amount}€</span>
                                             <span className="transaction-type">{t.type === "INCOME" ? "Ingreso" : "Gasto"}</span>
                                         </div>
                                         <div className="transaction-meta">
