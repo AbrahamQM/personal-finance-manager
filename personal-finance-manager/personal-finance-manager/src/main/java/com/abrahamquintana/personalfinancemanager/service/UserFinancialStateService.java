@@ -21,6 +21,7 @@ import java.util.List;
  * Each calculation is delegated to a dedicated helper method.
  */
 @Service
+@Transactional
 public class UserFinancialStateService {
 
     private final TransactionRepository transactionRepository;
@@ -193,7 +194,6 @@ public class UserFinancialStateService {
      * Generates new transactions from recurring rules if their execution date is due
      * And marks the ald transactions with recurrence = No
      */
-    @Transactional
     private void generateAndUpdateRecurringTransactionsIfNeeded(User user) {
         LocalDate today = LocalDate.now();
         List<Transaction> allTransactions = transactionRepository.findByUserAndRecurrenceNot(user, RecurrenceType.NO);
