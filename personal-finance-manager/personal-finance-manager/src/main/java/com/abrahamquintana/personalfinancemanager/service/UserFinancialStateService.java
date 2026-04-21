@@ -37,8 +37,9 @@ public class UserFinancialStateService {
 
         generateAndUpdateRecurringTransactionsIfNeeded(user);
 
-        List<Transaction> monthTransactions = getTransactionsForCurrentAndNextMonth(user);
+        BigDecimal monthInitialBalance = calculateMonthInitialBalance(user);
 
+        List<Transaction> monthTransactions = getTransactionsForCurrentAndNextMonth(user);
         List<TransactionDto> past = filterPastTransactions(monthTransactions);
         List<TransactionDto> future = filterFutureTransactions(monthTransactions);
 
@@ -49,7 +50,8 @@ public class UserFinancialStateService {
         BigDecimal dailyAvailable = calculateDailyAvailable(currentBalance, future);
         BigDecimal todayAvailable = calculateTodayAvailable(dailyAvailable, past);
 
-        return toDto(
+        return new UserFinancialStateDto(
+                monthInitialBalance,
                 currentBalance,
                 income,
                 expenses,
@@ -104,6 +106,17 @@ public class UserFinancialStateService {
     // -------------------------------------------------------------------------
     //  CALCULATIONS
     // -------------------------------------------------------------------------
+
+    /**
+     * Calculates the initial balance of the month by summing all past transactions.
+     */
+    private BigDecimal calculateMonthInitialBalance(User user) {
+        LocalDate startOfTheMonth = LocalDate.now().withDayOfMonth(1);
+        return transactionRepository.findByUser(user).stream()
+                .filter( t -> t.getDate().isBefore(startOfTheMonth))
+                .map(t -> t.getType() == TransactionType.INCOME ? t.getAmount() : t.getAmount().negate())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 
     /**
      * Sums all income transactions of the month.
@@ -290,31 +303,5 @@ public class UserFinancialStateService {
         LocalDate next = date.plusYears(1);
         int lastDay = next.lengthOfMonth();
         return next.withDayOfMonth(Math.min(day, lastDay));
-    }
-
-
-
-    // -------------------------------------------------------------------------
-    //  DTO BUILDER
-    // -------------------------------------------------------------------------
-
-    private UserFinancialStateDto toDto(
-            BigDecimal currentBalance,
-            BigDecimal income,
-            BigDecimal expenses,
-            BigDecimal dailyAvailable,
-            BigDecimal todayAvailable,
-            List<TransactionDto> past,
-            List<TransactionDto> future
-    ) {
-        return new UserFinancialStateDto(
-                currentBalance,
-                income,
-                expenses,
-                dailyAvailable,
-                todayAvailable,
-                past,
-                future
-        );
     }
 }

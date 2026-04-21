@@ -17,6 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 public class UserFinancialStateDto {
 
+    /** Balance at the beginning of the month, before any transactions. */
+    private BigDecimal monthInitialBalance;
+
     /** Real current balance based on past transactions. */
     private BigDecimal currentBalance;
 
