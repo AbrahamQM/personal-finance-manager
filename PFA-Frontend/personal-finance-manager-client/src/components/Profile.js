@@ -88,7 +88,7 @@ const Profile = () => {
         {/* Optional: show recent transactions preview */}
         {profileData?.pastTransactions?.length > 0 && (
           <>
-            <h4>Últimas transacciones</h4>
+            <h4>Últimas transacciones registradas</h4>
             <ul className="mini-tx-list">
               {profileData.pastTransactions.slice(0, 5).map((tx) => (
                 <li key={tx.id} className="mini-tx-item">

@@ -14,6 +14,9 @@ const UserNav = () => {
                 <Link to="/transaction">
                     <button className="nav-btn">Gestionar transacciones</button>
                 </Link>
+                <Link to="/statistics">
+                    <button className="nav-btn">Estadísticas</button>
+                </Link>
             </nav>
         </div>
     )

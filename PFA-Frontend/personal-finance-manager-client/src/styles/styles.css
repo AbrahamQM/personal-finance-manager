@@ -695,3 +695,51 @@ html, body, #root {
     grid-template-columns: 1fr;
   }
 }
+
+/* Statistics */
+.statistics-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 24px;
+  text-align: center;
+}
+
+.statistics-container .page-subnav {
+  justify-content: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.stats-card {
+  background: var(--surface);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(11,43,26,0.04);
+}
+
+.chart-box {
+  height: 260px;
+}
+
+.list-card .tx-list {
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.tx-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(11,43,26,0.06);
+}
+
+.tx-item:last-child {
+  border-bottom: none;
+}
+

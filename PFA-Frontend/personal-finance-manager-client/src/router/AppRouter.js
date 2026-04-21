@@ -11,6 +11,7 @@ import Login from "../components/Login";
 import Profile from "../components/Profile";
 import Category from "../components/Category";
 import Transaction from "../components/Transaction";
+import Statistics from "../components/Statistics";
 
 const AppRouter = () => {
   return (
@@ -27,6 +28,7 @@ const AppRouter = () => {
           <Route path="/profile" element={<RequireAuth> <Profile /> </RequireAuth>} />
           <Route path="/category" element={<RequireAuth> <Category /> </RequireAuth>} />
           <Route path="/transaction" element={<RequireAuth> <Transaction /> </RequireAuth>} />
+          <Route path="/statistics" element={<RequireAuth> <Statistics /> </RequireAuth>} />
         </Routes>
       </main>
 
