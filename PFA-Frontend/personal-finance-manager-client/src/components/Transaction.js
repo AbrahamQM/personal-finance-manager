@@ -183,7 +183,7 @@ const Transaction = () => {
                 </div>
 
                 <div className="transaction-list-card">
-                    <h3>Listado</h3>
+                    <h3>Listado de transacciones</h3>
 
                     {loading && <p>Cargando transacciones...</p>}
                     {!loading && transactions.length === 0 && <p>No hay transacciones registradas.</p>}
