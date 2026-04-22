@@ -53,15 +53,20 @@ export const buildBalanceSeries = (initialBalance, pastTransactions) => {
 };
 
 /**
- * Filters past transactions (<= today).
+ * Returns past transactions sorted by date DESC (newest first).
  */
 export const getPastTransactions = (data) => {
-  return data.pastTransactions || [];
+  return [...(data.pastTransactions || [])].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 };
 
 /**
- * Filters future transactions (> today).
+ * Returns future transactions sorted by date ASC (soonest first).
  */
 export const getFutureTransactions = (data) => {
-  return data.futureTransactions || [];
+  return [...(data.futureTransactions || [])].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
 };
+
