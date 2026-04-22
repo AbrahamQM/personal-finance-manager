@@ -1,7 +1,7 @@
 // src/components/Statistics.js
 import { useEffect, useState } from "react";
 import UserNav from "./UserNav";
-import { 
+import {
   fetchStatistics,
   groupByCategory,
   buildBalanceSeries,
@@ -62,6 +62,15 @@ const Statistics = () => {
   const futureExpenses = groupByCategory(stats.futureTransactions, "EXPENSE");
   const pastIncome = groupByCategory(stats.pastTransactions, "INCOME");
   const futureIncome = groupByCategory(stats.futureTransactions, "INCOME");
+
+  const sumValues = (items) =>
+    items.reduce((acc, item) => acc + Number(item.value), 0);
+
+  const totalPastExpenses = sumValues(pastExpenses);
+  const totalFutureExpenses = sumValues(futureExpenses);
+  const totalPastIncome = sumValues(pastIncome);
+  const totalFutureIncome = sumValues(futureIncome);
+
 
   // Prepare line chart data
   const balanceSeries = buildBalanceSeries(
@@ -131,6 +140,7 @@ const Statistics = () => {
           <div className="chart-box">
             <Pie data={makePieData(pastExpenses)} options={pieOptions} />
           </div>
+          <p>Total: <strong>{totalPastExpenses.toFixed(2)}€</strong></p>
         </div>
 
         {/* Future expenses */}
@@ -139,6 +149,7 @@ const Statistics = () => {
           <div className="chart-box">
             <Pie data={makePieData(futureExpenses)} options={pieOptions} />
           </div>
+          <p>Total: <strong>{totalFutureExpenses.toFixed(2)}€</strong></p>
         </div>
 
         {/* Past income */}
@@ -147,6 +158,7 @@ const Statistics = () => {
           <div className="chart-box">
             <Pie data={makePieData(pastIncome)} options={pieOptions} />
           </div>
+           <p>Total: <strong>{totalPastIncome.toFixed(2)}€</strong></p>
         </div>
 
         {/* Future income */}
@@ -155,6 +167,7 @@ const Statistics = () => {
           <div className="chart-box">
             <Pie data={makePieData(futureIncome)} options={pieOptions} />
           </div>
+            <p>Total: <strong>{totalFutureIncome.toFixed(2)}€</strong></p>
         </div>
 
         {/* Past transactions list */}
