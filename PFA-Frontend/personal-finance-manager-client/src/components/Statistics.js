@@ -1,6 +1,10 @@
 // src/components/Statistics.js
 import { useEffect, useState } from "react";
 import UserNav from "./UserNav";
+import PieCard from "./statistics/PieCard";
+import LineCard from "./statistics/LineCard";
+import TransactionList from "./statistics/TransactionList";
+
 import {
   fetchStatistics,
   groupByCategory,
@@ -8,11 +12,6 @@ import {
   getPastTransactions,
   getFutureTransactions
 } from "../services/statisticsService";
-
-import {
-  Pie,
-  Line
-} from "react-chartjs-2";
 
 import {
   Chart as ChartJS,
@@ -58,14 +57,12 @@ const Statistics = () => {
   if (!stats) return <p>Error cargando estadísticas.</p>;
 
   // Prepare pie chart data
+  const sumValues = (items) => items.reduce((acc, item) => acc + Number(item.value), 0);
+
   const pastExpenses = groupByCategory(stats.pastTransactions, "EXPENSE");
   const futureExpenses = groupByCategory(stats.futureTransactions, "EXPENSE");
   const pastIncome = groupByCategory(stats.pastTransactions, "INCOME");
   const futureIncome = groupByCategory(stats.futureTransactions, "INCOME");
-
-  const sumValues = (items) =>
-    items.reduce((acc, item) => acc + Number(item.value), 0);
-
   const totalPastExpenses = sumValues(pastExpenses);
   const totalFutureExpenses = sumValues(futureExpenses);
   const totalPastIncome = sumValues(pastIncome);
@@ -122,83 +119,54 @@ const Statistics = () => {
 
       <div className="stats-grid">
 
-        {/* Balance evolution */}
-        <div className="stats-card">
-          <h3>Evolución del saldo</h3>
-          <p>
-            Inicio del mes: <strong>{stats.monthInitialBalance}€</strong><br />
-            Saldo actual: <strong>{stats.currentBalance}€</strong>
-          </p>
-          <div className="chart-box">
-            <Line data={lineData} />
-          </div>
-        </div>
+        <LineCard
+          title="Evolución del saldo"
+          initialBalance={stats.monthInitialBalance}
+          currentBalance={stats.currentBalance}
+          data={lineData}
+        />
 
-        {/* Past expenses */}
-        <div className="stats-card">
-          <h3>Gastos del mes por categoría</h3>
-          <div className="chart-box">
-            <Pie data={makePieData(pastExpenses)} options={pieOptions} />
-          </div>
-          <p>Total: <strong>{totalPastExpenses.toFixed(2)}€</strong></p>
-        </div>
+        <PieCard
+          title="Gastos del mes por categoría"
+          total={totalPastExpenses}
+          data={makePieData(pastExpenses)}
+          options={pieOptions}
+        />
 
-        {/* Future expenses */}
-        <div className="stats-card">
-          <h3>Gastos futuros del mes</h3>
-          <div className="chart-box">
-            <Pie data={makePieData(futureExpenses)} options={pieOptions} />
-          </div>
-          <p>Total: <strong>{totalFutureExpenses.toFixed(2)}€</strong></p>
-        </div>
+        <PieCard
+          title="Gastos futuros del mes"
+          total={totalFutureExpenses}
+          data={makePieData(futureExpenses)}
+          options={pieOptions}
+        />
 
-        {/* Past income */}
-        <div className="stats-card">
-          <h3>Ingresos del mes por categoría</h3>
-          <div className="chart-box">
-            <Pie data={makePieData(pastIncome)} options={pieOptions} />
-          </div>
-           <p>Total: <strong>{totalPastIncome.toFixed(2)}€</strong></p>
-        </div>
+        <PieCard
+          title="Ingresos del mes por categoría"
+          total={totalPastIncome}
+          data={makePieData(pastIncome)}
+          options={pieOptions}
+        />
 
-        {/* Future income */}
-        <div className="stats-card">
-          <h3>Ingresos futuros del mes</h3>
-          <div className="chart-box">
-            <Pie data={makePieData(futureIncome)} options={pieOptions} />
-          </div>
-            <p>Total: <strong>{totalFutureIncome.toFixed(2)}€</strong></p>
-        </div>
+        <PieCard
+          title="Ingresos futuros del mes"
+          total={totalFutureIncome}
+          data={makePieData(futureIncome)}
+          options={pieOptions}
+        />
 
-        {/* Past transactions list */}
-        <div className="stats-card list-card">
-          <h3>Transacciones pasadas</h3>
-          <div className="tx-list">
-            {getPastTransactions(stats).map(t => (
-              <div key={t.id} className="tx-item">
-                <span>{t.date}</span>
-                <span>{t.categoryName}</span>
-                <span>{t.amount}€</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <TransactionList
+          title="Transacciones pasadas"
+          items={getPastTransactions(stats)}
+        />
 
-        {/* Future transactions list */}
-        <div className="stats-card list-card">
-          <h3>Transacciones futuras</h3>
-          <div className="tx-list">
-            {getFutureTransactions(stats).map(t => (
-              <div key={t.id} className="tx-item">
-                <span>{t.date}</span>
-                <span>{t.categoryName}</span>
-                <span>{t.amount}€</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <TransactionList
+          title="Transacciones futuras"
+          items={getFutureTransactions(stats)}
+        />
 
       </div>
+
+
     </div>
   );
 };
