@@ -10,7 +10,8 @@ import {
   groupByCategory,
   buildBalanceSeries,
   getPastTransactions,
-  getFutureTransactions
+  getFutureTransactions,
+  colorFromCategory
 } from "../services/statisticsService";
 
 import {
@@ -94,23 +95,19 @@ const Statistics = () => {
     }
   };
 
-  const makePieData = (items) => ({
-    labels: items.map(i => i.name),
-    datasets: [
-      {
-        data: items.map(i => i.value),
-        backgroundColor: [
-          "#0f7a4a",
-          "#2aa06a",
-          "#7bd59a",
-          "#6b7280",
-          "#0b5f36",
-          "#b91c1c",
-          "#fca5a5"
-        ]
-      }
-    ]
-  });
+
+
+const makePieData = (items) => ({
+  labels: items.map(i => i.name),
+  datasets: [
+    {
+      data: items.map(i => i.value),
+      backgroundColor: items.map(i => colorFromCategory(i.name)),
+      borderWidth: 1
+    }
+  ]
+});
+
 
   return (
     <div className="container statistics-container">
