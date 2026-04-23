@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: pfm-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: PFMAdmin
+      POSTGRES_DB: pfm
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: pfm-backend:latest
+    container_name: pfm-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pfm
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: PFMAdmin
+    restart: on-failure
+
+volumes:
+  pgdata:
+    external: true
+    name: personal-finance-manager_pgdata
