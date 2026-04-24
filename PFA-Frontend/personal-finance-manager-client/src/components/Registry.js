@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { registerUser, saveToken } from '../services/authService';
+import { registerUser } from '../services/authService';
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,6 @@ export default function Registry() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
 
 
     const handleSubmit = async (e) => {
@@ -20,7 +19,7 @@ export default function Registry() {
             login(email, data.token);
             navigate("/profile");
         } catch (err) {
-            setError(err.message);
+            console.error("Error registering user:", err);
         }
     };
 
