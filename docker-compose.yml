@@ -30,6 +30,19 @@ services:
       SPRING_DATASOURCE_PASSWORD: PFMAdmin
     restart: on-failure
 
+  frontend:
+    build:
+      context: ./PFA-Frontend/personal-finance-manager-client
+      dockerfile: Dockerfile
+    image: pfm-frontend:latest
+    container_name: pfm-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: on-failure
+
+
 volumes:
   pgdata:
     external: true
