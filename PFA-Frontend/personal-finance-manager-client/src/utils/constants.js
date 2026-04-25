@@ -1,4 +1,5 @@
-export const API_BASE_URL = "http://localhost:8080/api";
+// export const API_BASE_URL = "http://localhost:8080/api"; //Only for development use without Docker
+export const API_BASE_URL = "/api";
 
 export const AUTH_ENDPOINTS = {
   REGISTER: "/auth/register",
@@ -13,7 +14,7 @@ export const USER_ENDPOINTS = {
 export const CATEGORY_ENDPOINTS = {
     ALL: "/categories",
     CREATE: "/categories",
-    UPDATE: "/categories", //todo Not used yet, but we can implement it in the future if needed
+    UPDATE: "/categories", //Not used yet, but we can implement it in the future if needed
     DELETE: "/categories"
 };
 
