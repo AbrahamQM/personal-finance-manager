@@ -54,7 +54,7 @@ This configuration ensures:
 
 - Automatic schema creation/update during development  
 - SQL logs visible in the console  
-- PostgreSQL dialect enabled for Hibernate  
+- PostgreSQL's dialect enabled for Hibernate  
 
 ---
 
@@ -181,3 +181,6 @@ personal-finance-manager/
 - For production, replace `ddl-auto=update` with a safer option (e.g., `validate`).
 
 ---
+
+## 10. Javadocs documentation is available in the `Javadocs` directory.
+[See Javadoc documentation](./Javadocs/index.html)

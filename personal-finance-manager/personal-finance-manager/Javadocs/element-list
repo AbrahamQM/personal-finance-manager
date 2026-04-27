@@ -1,0 +1,11 @@
+com.abrahamquintana.personalfinancemanager
+com.abrahamquintana.personalfinancemanager.config
+com.abrahamquintana.personalfinancemanager.controller
+com.abrahamquintana.personalfinancemanager.dto
+com.abrahamquintana.personalfinancemanager.exceptions
+com.abrahamquintana.personalfinancemanager.mapper
+com.abrahamquintana.personalfinancemanager.model
+com.abrahamquintana.personalfinancemanager.repository
+com.abrahamquintana.personalfinancemanager.security
+com.abrahamquintana.personalfinancemanager.security.dto
+com.abrahamquintana.personalfinancemanager.service
