@@ -1,5 +1,5 @@
 
-## 1. Requirements
+## 1. Requirements for development use
 
 Before running the backend, make sure you have the following installed:
 
