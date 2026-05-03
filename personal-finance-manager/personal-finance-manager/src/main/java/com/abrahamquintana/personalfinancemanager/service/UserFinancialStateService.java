@@ -199,10 +199,6 @@ public class UserFinancialStateService {
         );
     }
 
-    // -------------------------------------------------------------------------
-    //  RECURRING TRANSACTIONS (placeholder, se implementará después)
-    // -------------------------------------------------------------------------
-
     /**
      * Generates new transactions from recurring rules if their execution date is due
      * And marks the ald transactions with recurrence = No
@@ -213,8 +209,8 @@ public class UserFinancialStateService {
         List<Transaction> transactionsToSave = new ArrayList<>();
 
         allTransactions.forEach( transaction -> {
-            //define next transaction date
             if(transaction.getDate().isBefore(today)) {
+                //define next transaction date
                 LocalDate recurrenceDate = getRecurrenceDate(transaction);
 
                 // Generate next transaction based on the recurrence rule
