@@ -78,14 +78,25 @@ docker compose logs backend --follow
 docker compose logs frontend --follow
 ```
 
-- Rebuild only the frontend
+- Rebuild and run only the frontend
 ```bash
+cd /PFA-Frontend/personal-finance-manager-client/
+npm run build
+cd ../../
 docker compose up -d --build frontend
 ```
 
-- Rebuild only the backend (if you add a build section)
+- Rebuild and run only the backend
 ```bash
+cd /personal-finance-manager/personal-finance-manager/
+docker build -t pfm-backend . 
+cd ../../
 docker compose up -d --build backend
+```
+
+- Access to Postgres DB using psql (once DB container is running)
+```bash
+docker exec -it pfm-postgres psql -U postgres -d pfm
 ```
 
 # 📄 License
