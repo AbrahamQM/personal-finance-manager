@@ -99,6 +99,54 @@ docker compose up -d --build backend
 docker exec -it pfm-postgres psql -U postgres -d pfm
 ```
 
+- Stop full application
+```bash
+ docker compose down
+```
+
+- ⚠️Clean all⚠️
+```bash
+# Stop and remove all containers from this project
+docker compose down --remove-orphans
+# (Stops the running services and removes containers created by this docker-compose file)
+
+# Remove backend image
+docker rmi -f pfm-backend:latest 2>/dev/null || true
+# (Deletes the backend image built locally for this project)
+
+# Remove frontend image
+docker rmi -f pfm-frontend:latest 2>/dev/null || true
+# (Deletes the frontend image built locally for this project)
+
+# Remove downloaded base images used ONLY by this project (optional but safe)
+docker rmi -f postgres:latest 2>/dev/null || true
+# (Removes the Postgres image pulled when running docker compose up)
+
+docker rmi -f nginx:stable-alpine 2>/dev/null || true
+# (Removes the Nginx image used by the frontend container)
+
+docker rmi -f eclipse-temurin:21-jdk 2>/dev/null || true
+# (Removes the Java base image used to build the backend)
+
+docker rmi -f maven:3.9.6-eclipse-temurin-21 2>/dev/null || true
+# (Removes the Maven builder image used during backend build)
+
+docker rmi -f node:24-slim 2>/dev/null || true
+# (Removes the Node.js image used to build the frontend)
+
+# Remove the project's PostgreSQL volume
+docker volume rm personal-finance-manager_pgdata 2>/dev/null || true
+# (Deletes the database volume created specifically for this project)
+
+# Optional: verify everything is gone
+docker images | grep pfm || echo "No project images found"
+docker volume ls | grep personal-finance-manager || echo "No project volumes found"
+
+# Optional:Delete the entire project folder from your machine
+# You must be located in the parent directory where the repository was cloned
+sudo rm -rf personal-finance-manager
+```
+
 # 📄 License
 ```bash
 Copyright (c) 2024 Abraham Quintana
