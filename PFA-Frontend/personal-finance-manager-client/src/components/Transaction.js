@@ -6,7 +6,6 @@ import { getCategory } from "../services/categoryService";
 
 /**
  * Transaction page: list transactions, create new, delete.
- * Texts in Spanish; code and comments in English.
  */
 const Transaction = () => {
     const [transactions, setTransactions] = useState([]);
