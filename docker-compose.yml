@@ -17,6 +17,9 @@ services:
       retries: 5
 
   backend:
+    build:
+      context: ./personal-finance-manager/personal-finance-manager
+      dockerfile: Dockerfile
     image: pfm-backend:latest
     container_name: pfm-backend
     depends_on:

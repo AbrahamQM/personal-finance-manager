@@ -39,7 +39,7 @@ cd personal-finance-manager
 
 ### 2. Create the PostgreSQL volume (only required the first time)
 ```bash
-docker volume create personal-finance-manager_pgdata
+docker volume create --name=personal-finance-manager_pgdata
 ```
 
 ### 3. Start all services (backend, frontend, database)
