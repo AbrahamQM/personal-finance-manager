@@ -112,31 +112,19 @@ docker compose down --remove-orphans
 
 # Remove backend image
 docker rmi -f pfm-backend:latest 2>/dev/null || true
-# (Deletes the backend image built locally for this project)
 
 # Remove frontend image
 docker rmi -f pfm-frontend:latest 2>/dev/null || true
-# (Deletes the frontend image built locally for this project)
 
 # Remove downloaded base images used ONLY by this project (optional but safe)
 docker rmi -f postgres:latest 2>/dev/null || true
-# (Removes the Postgres image pulled when running docker compose up)
-
 docker rmi -f nginx:stable-alpine 2>/dev/null || true
-# (Removes the Nginx image used by the frontend container)
-
 docker rmi -f eclipse-temurin:21-jdk 2>/dev/null || true
-# (Removes the Java base image used to build the backend)
-
 docker rmi -f maven:3.9.6-eclipse-temurin-21 2>/dev/null || true
-# (Removes the Maven builder image used during backend build)
-
 docker rmi -f node:24-slim 2>/dev/null || true
-# (Removes the Node.js image used to build the frontend)
 
 # Remove the project's PostgreSQL volume
 docker volume rm personal-finance-manager_pgdata 2>/dev/null || true
-# (Deletes the database volume created specifically for this project)
 
 # Optional: verify everything is gone
 docker images | grep pfm || echo "No project images found"
