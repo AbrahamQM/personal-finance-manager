@@ -85,12 +85,14 @@ const Profile = () => {
         <h3>Resumen Financiero</h3>
         <FinancialSummary data={profileData} />
 
-        {/* Optional: show recent transactions preview */}
         {profileData?.pastTransactions?.length > 0 && (
           <>
-            <h4>Últimas transacciones registradas</h4>
+            <h4>Últimas transacciones ejecutadas</h4>
             <ul className="mini-tx-list">
-              {profileData.pastTransactions.slice(0, 5).map((tx) => (
+              {profileData.pastTransactions
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
+              .slice(0, 5)
+              .map((tx) => (
                 <li key={tx.id} className="mini-tx-item">
                   <span className={`mini-tx-amount ${tx.type === "INCOME" ? "income" : "expense"}`}>
                     {tx.type === "INCOME" ? "+" : "-"}{Number(tx.amount).toFixed(2)}€
