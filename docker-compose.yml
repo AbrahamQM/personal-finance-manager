@@ -35,7 +35,7 @@ services:
 
   frontend:
     build:
-      context: ./PFA-Frontend/personal-finance-manager-client
+      context: ./PFM-Frontend/personal-finance-manager-client
       dockerfile: Dockerfile
     image: pfm-frontend:latest
     container_name: pfm-frontend

@@ -80,7 +80,7 @@ docker compose logs frontend --follow
 
 - Rebuild and run only the frontend
 ```bash
-cd /PFA-Frontend/personal-finance-manager-client/
+cd /PFM-Frontend/personal-finance-manager-client/
 npm run build
 cd ../../
 docker compose up -d --build frontend
